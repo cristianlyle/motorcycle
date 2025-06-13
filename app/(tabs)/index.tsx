@@ -5,18 +5,32 @@ import EmojiPicker from "@/components/EmojiPicker";
 import EmojiSticker from "@/components/EmojiSticker";
 import IconButton from "@/components/IconButton";
 import ImageViewer from "@/components/ImageViewer";
+import domtoimage from "dom-to-image";
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import * as MediaLibrary from "expo-media-library";
+import { useEffect, useRef, useState } from "react";
+import { Platform, StyleSheet, View } from "react-native";
+import { captureRef } from "react-native-view-shot";
 
 const PlaceholderImage = require("../../assets/images/background-image.png");
+
 export default function Index() {
+
+  const imageRef = useRef(null);
+
+  const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
 
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
 
   const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [pickedEmoji, setPickedEmoji] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (permissionResponse?.granted) {
+      requestPermission();
+    }
+  },[]);
 
   const pickIamgeAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -43,13 +57,44 @@ const onModalClose = () => {
     setIsModalVisible(true);
 
   };
+  
   const onSaveImageAsync = async () => {
+    if (Platform.OS === 'web') {
+      try {
+        //@ts-ignore
+        const dataUrl = await domtoimage.toJpeg(imageRef.current, {
+          quality: 1,
+          width: 320,
+          height: 440,
+       
+      });
+      let link = document.createElement("a");
+      link.download = 'sticker-smash.jpeg';
+      link.href = dataUrl;
+      link.click();
+    }catch (e){
+      console.log(e);
+    }
+    }else{
+    try {
+      const localUri = await captureRef(imageRef, {
+        height: 440,
+        quality: 1,
+      });
 
+      await MediaLibrary.saveToLibraryAsync(localUri);
+      if (localUri) {
+        alert('Saved!');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   };
 
   return (
     <View style={styles.container}> 
-  <View style={styles.imageContainer}>
+  <View ref = {imageRef} style={{}}>
     <ImageViewer imgSource={selectedImage || PlaceholderImage} />
     {pickedEmoji && ( 
       <EmojiSticker imageSize={40} stickerSource={pickedEmoji}/> )}
