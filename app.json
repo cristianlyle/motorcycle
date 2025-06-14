@@ -4,7 +4,7 @@
     "slug": "SmashSticker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/background-image.png",
+    "icon": "./assets/images/splash-icon.png",
     "scheme": "smashsticker",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/spash-icon.png",
+        "foregroundImage": "./assets/images/favicon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
