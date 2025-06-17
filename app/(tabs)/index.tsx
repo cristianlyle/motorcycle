@@ -1,11 +1,14 @@
-import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { useCart } from '../CartContext';
 
 
 const PlaceholderImage = require("../../assets/images/motobike.png");
 
 export default function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+
    const { cart, total, addToCart } = useCart();
 
   const motorcycles = [
@@ -20,18 +23,27 @@ export default function App() {
 
   ];
 
+ const scheme = useColorScheme(); 
+
+
+    const themeStyles = {
+      background: darkMode ? styles.darkBackground : styles.lightBackground,
+      text: darkMode ? styles.darkText : styles.lightText,
+    };
 
 
   return (
     <>
-
-        <View style={styles.container}>
-
-    <Text style={styles.title}>🏍️   Online Motorcycle Shop </Text>
+        <View style={[styles.container, themeStyles.background]}>
+   <TouchableOpacity style={styles.darkModeButton} onPress={() => setDarkMode((d) => !d)}>
+        <Text style={themeStyles.text}>{darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}</Text>
+      </TouchableOpacity>
+      
+    <Text style={[styles.title, themeStyles.text]}>🏍️   Online Motorcycle Shop </Text>
       
     <View style={styles.container1}>
          <View style={styles.containerQuote}>
-           <Text style={styles.quote}>Your next ride starts
+           <Text style={[styles.quote, themeStyles.text]}>Your next ride starts
              here — built for the wild, shipped to your garage.</Text>
     </View> 
     <View style={styles.motobikeImage}>
@@ -40,9 +52,10 @@ export default function App() {
 
     </View>
 
-    <Text style = {styles.text}>Recommended Motorcycle</Text>
+    <Text style = {[styles.text,themeStyles.text]}>Recommended Motorcycle</Text>
 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
   {motorcycles.map((bike) => (
+    
     <View key={bike.id} style={styles.card}>
       <Image source={{ uri: bike.image }} style={styles.image} />
       <Text style={styles.name}>{bike.name}</Text>
@@ -70,11 +83,32 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#EAE4D5', // Light background for contrast
   },
+  darkModeButton: {
+    alignSelf: 'flex-end',
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: '#2c2c2c',
+    marginBottom: 10,
+  },
+  
   container1: {
     width: '100%',
     height: 175,
   flexDirection: 'row',
     borderRadius: 20,
+  },
+  
+  darkBackground: {
+    backgroundColor: '#121212',
+  },
+  lightBackground: {
+    backgroundColor: '#FFFFFF',
+  },
+  darkText: {
+    color: '#FFFFFF',
+  },
+  lightText: {
+    color: '#000000',
   },
   title: {
     fontSize: 24, 
