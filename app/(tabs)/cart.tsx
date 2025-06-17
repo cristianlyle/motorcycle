@@ -41,9 +41,9 @@ export default function CartScreen() {
 
 const styles = StyleSheet.create({
   container: { 
-    flex: 1, 
-    backgroundColor: "#1c1c1c", 
-    padding: 20
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#EAE4D5',
 },
   title: { 
     fontSize: 24, 
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginRight: 10 
 },
   itemText: { 
-    color: "white", 
+    color: "black", 
     fontSize: 16 
 },
   total: { 

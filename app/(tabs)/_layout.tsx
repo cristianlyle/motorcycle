@@ -16,7 +16,6 @@ export default function TabsLayout() {
         tabBarActiveTintColor: "red", // Active tab color
         tabBarInactiveTintColor: "gray", // Inactive tab color
         tabBarStyle: {
-          backgroundColor: "black", // Tab bar background
           borderTopWidth: 1,
           borderTopColor: "gray", // Tab bar border
         },
