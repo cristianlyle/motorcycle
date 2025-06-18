@@ -1,14 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+
 import { LogBox } from "react-native";
 import { CartProvider } from "../CartContext";
 
-
+import { FavoritesProvider } from '../FavoritesContext';
 LogBox.ignoreAllLogs(true); 
 
 
 export default function TabsLayout() {
   return (
+    
+    <FavoritesProvider>
     <CartProvider>
     <Tabs
       screenOptions={{
@@ -48,6 +51,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+   
         name="favorites"
         options={{
           title: "Favorites",
@@ -59,6 +63,7 @@ export default function TabsLayout() {
             />
           ),
         }}
+        
         />
         <Tabs.Screen
         name="cart"
@@ -75,5 +80,6 @@ export default function TabsLayout() {
         />
     </Tabs>
       </CartProvider>
+    </FavoritesProvider>
   );
 }

@@ -1,14 +1,18 @@
+import { FontAwesome } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { useCart } from '../CartContext';
+import { useFavorites } from '../FavoritesContext';
+
 
 
 const PlaceholderImage = require("../../assets/images/motobike.png");
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [favorites, setFavorites] = useState([]);
+  const { toggleFavorite, isFavorited } = useFavorites();
 
+  
    const { cart, total, addToCart } = useCart();
 
   const motorcycles = [
@@ -36,7 +40,7 @@ export default function App() {
     <>
         <View style={[styles.container, themeStyles.background]}>
    <TouchableOpacity style={styles.darkModeButton} onPress={() => setDarkMode((d) => !d)}>
-        <Text style={themeStyles.text}>{darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}</Text>
+        <Text style={themeStyles.text}>{darkMode ? '☀️' : '🌙 '}</Text>
       </TouchableOpacity>
       
     <Text style={[styles.title, themeStyles.text]}>🏍️   Online Motorcycle Shop </Text>
@@ -62,11 +66,19 @@ export default function App() {
       <Text style={styles.price}>Price: ₱{bike.price.toLocaleString()}</Text>
      <View style={styles.actionContainer}> 
       <TouchableOpacity style={styles.button} onPress={() => addToCart(bike)}>
-        <Text style={styles.buttonText}>Favorite</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => addToCart(bike)}>
         <Text style={styles.buttonText}>Add to cart</Text>
       </TouchableOpacity>
+      <View style={styles.actionContainer}>
+  <TouchableOpacity onPress={() => toggleFavorite(bike)}>
+    <FontAwesome
+      name="heart"
+      size={24}
+      color={isFavorited(bike) ? "red" : "gray"}
+      style={{ marginRight: 10 }}
+    />
+  </TouchableOpacity>
+  
+</View>
       </View>
 
     </View>
