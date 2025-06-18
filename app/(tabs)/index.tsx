@@ -19,11 +19,11 @@ export default function App() {
     { id: '1', name: 'Yamaha Mio Sporty', price: 65000,image: 'https://imgcdn.zigwheels.ph/medium/gallery/exterior/86/1857/yamaha-mio-sporty-91022.jpg' },
     { id: '2', name: 'Honda Click 125i', price: 78000, image: 'https://i.pinimg.com/736x/2f/03/4f/2f034f2f60bd3bec80ed724ec4ca72e2.jpg' },
     { id: '3', name: 'Kawasaki Barako II', price: 88000,  image: 'https://imgcdn.zigwheels.ph/large/gallery/exterior/74/979/kawasaki-barako-ii-slant-front-view-full-image-791676.jpg' },
-    { id: '4', name: 'Honda SP 125', price: 88000, image: 'https://imgd.aeplcdn.com/1280x720/n/cw/ec/43482/sp-125-right-front-three-quarter.jpeg' },
-    { id: '5', name: 'Kawasaki  Ninja 125', price: 88000, image: 'https://imgcdn.stablediffusionweb.com/2024/11/11/f02840b5-80e0-4488-ad6e-957876cd6f5a.jpg' },
-    { id: '6', name: 'Suzuki GSX-S1000', price: 88000, image: 'https://imgcdn.zigwheels.ph/large/gallery/exterior/83/1787/suzuki-gsx-s1000-abs-slant-rear-view-full-image-244110.jpg' },
-    { id: '7', name: 'Honda ADV 160', price: 88000, image: 'https://imgcdn.oto.com/medium/gallery/exterior/73/2617/honda-adv-160-slant-rear-view-full-image-283713.jpg' },
-    { id: '8', name: ' Suzuki Gixxer SF 155', price: 88000, image: 'https://visor.ph/wp-content/uploads/2024/10/Gixxer-5.jpg' },
+    { id: '4', name: 'Honda SP 125', price: 83000, image: 'https://imgd.aeplcdn.com/1280x720/n/cw/ec/43482/sp-125-right-front-three-quarter.jpeg' },
+    { id: '5', name: 'Kawasaki  Ninja 125', price: 84000, image: 'https://imgcdn.stablediffusionweb.com/2024/11/11/f02840b5-80e0-4488-ad6e-957876cd6f5a.jpg' },
+    { id: '6', name: 'Suzuki GSX-S1000', price: 85000, image: 'https://imgcdn.zigwheels.ph/large/gallery/exterior/83/1787/suzuki-gsx-s1000-abs-slant-rear-view-full-image-244110.jpg' },
+    { id: '7', name: 'Honda ADV 160', price: 81000, image: 'https://imgcdn.oto.com/medium/gallery/exterior/73/2617/honda-adv-160-slant-rear-view-full-image-283713.jpg' },
+    { id: '8', name: 'Suzuki Gixxer SF 155', price: 86000, image: 'https://visor.ph/wp-content/uploads/2024/10/Gixxer-5.jpg' },
 
   ];
 
@@ -40,10 +40,10 @@ export default function App() {
     <>
         <View style={[styles.container, themeStyles.background]}>
    <TouchableOpacity style={styles.darkModeButton} onPress={() => setDarkMode((d) => !d)}>
-        <Text style={themeStyles.text}>{darkMode ? '☀️' : '🌙 '}</Text>
+        <Text style={themeStyles.text}>{darkMode ? '☀️' : '🌙'}</Text>
       </TouchableOpacity>
       
-    <Text style={[styles.title, themeStyles.text]}>🏍️   Online Motorcycle Shop </Text>
+    <Text style={[styles.title, themeStyles.text]}>🏍️ ThrottleUp </Text>
       
     <View style={styles.container1}>
          <View style={styles.containerQuote}>
@@ -123,12 +123,10 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   title: {
-    fontSize: 24, 
-    marginTop: 35,
+    fontSize: 20, 
     color: "#2c2c2c", 
-    fontWeight: "bold", 
-    marginBottom: 20, 
-    textAlign: "center"
+    fontWeight: 'bold', 
+    marginBottom: '3%' , 
   },
   quote:{
  fontSize: 16,
@@ -222,7 +220,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'black', 
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 10,
   },
 });

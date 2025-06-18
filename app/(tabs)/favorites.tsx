@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
   empty: { color: 'gray', textAlign: 'center' },
   card: { 
+    flex: 1,
     maxWidth: '40%',
     alignItems: 'center',
     textAlign: 'center',
@@ -64,10 +65,10 @@ name: {
   },
 
     rowContainer:{
-      display : 'flex',
+      flex: 1,
+      display: 'flex',
       flexDirection: 'row',
-      backgroundColor: 'black',
-      flexWrap: 'wrap',
+
 
 
     },
