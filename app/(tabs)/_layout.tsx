@@ -29,7 +29,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "",
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "speedometer" : "speedometer-outline"} // Motorcycle speedometer icon
@@ -44,7 +44,7 @@ export default function TabsLayout() {
    
         name="favorites"
         options={{
-          title: "Favorites",
+          title: "",
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "heart" : "heart-outline"} 
@@ -58,7 +58,7 @@ export default function TabsLayout() {
         <Tabs.Screen
         name="cart"
         options={{
-          title: "Carts",
+          title: "",
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "cart" : "cart-outline"} 
@@ -71,7 +71,7 @@ export default function TabsLayout() {
         <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: "",
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "settings" : "settings-outline"} // Motorcycle-related icon

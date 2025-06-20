@@ -1,6 +1,8 @@
-import React from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useCart } from "../CartContext"; // adjust path if needed
+import ModalDescription from '../ModalDescription';
+
 
 export default function CartScreen() {
   const { cart, total } = useCart();
@@ -16,26 +18,56 @@ export default function CartScreen() {
       return acc;
     }, {} as Record<string, { id: string; name: string; price: number; image: string; quantity: number }>)
   );
+  const [modalVisible, setModalVisible] = useState(false);
+    const [selectedBike, setSelectedBike] = useState<{
+      id: string;
+      name: string;
+      price: number;
+      image: string;
+      description?: string;
+    } | null>(null);
+
 
   return (
+    <>
     <View style={styles.container}>
+
       <Text style={styles.title}>🛒 Shopping Cart</Text>
+        <View style={styles.headerRow}>
+      <Text style={styles.headerCell}>Image</Text>
+      <Text style={styles.headerCell}>Name</Text>
+      <Text style={styles.headerCell}>Qty</Text>
+      <Text style={styles.headerCell}>Price</Text>
+    </View>
       {grouped.length === 0 ? (
         <Text style={styles.empty}>Your cart is empty.</Text>
       ) : (
         <ScrollView>
           {grouped.map((item:any) => (
-            <View key={item.id} style={styles.itemRow}>
-              <Image source={{ uri: item.image }} style={styles.image} />
-              <Text style={styles.itemText}>
-                {item.name} x{item.quantity} - ₱{(item.price * item.quantity).toLocaleString()}
-              </Text>
-            </View>
+            <View key={item.id} style={styles.itemRow}> 
+            <TouchableOpacity
+                            onPress={() => {
+                              setSelectedBike(item);
+                              setModalVisible(true);
+                            }}
+                          >
+              <Image source={{ uri: item.image }} style={styles.image} /></TouchableOpacity>
+              <Text style={styles.cell}>{item.name}</Text>
+          <Text style={styles.cell}>{item.quantity}</Text>
+          <Text style={styles.cell}>${item.price * item.quantity}</Text>
+        </View>
+
           ))}
         </ScrollView>
       )}
       <Text style={styles.total}>Total: ₱{total.toLocaleString()}</Text>
-    </View>
+    </View> 
+    <ModalDescription
+  visible={modalVisible}
+  bike={selectedBike}
+  onClose={() => setModalVisible(false)}
+/> 
+</>
   );
 }
 
@@ -60,23 +92,44 @@ const styles = StyleSheet.create({
   itemRow: { 
     flexDirection: "row", 
     alignItems: "center", 
-    marginBottom: 10 
+    margin: 10 
+
 },
   image: { 
     width: 40, 
     height: 40, 
     borderRadius: 5, 
-    marginRight: 10 
+    marginLeft: 10,
+    marginRight: 30 
 },
   itemText: { 
     color: "black", 
     fontSize: 16 
 },
   total: { 
-    marginTop: 20, 
-    color: "red", 
+    color: "black", 
     fontWeight: "bold", 
-    fontSize: 20,
-     textAlign: "center" 
+    fontSize: 16,
+    textAlign: "center" 
     },
+      headerRow: { 
+        flexDirection: 'row', 
+        borderBottomWidth: 1, 
+        paddingBottom: 4 
+      },
+
+      headerCell: { 
+        flex: 1, 
+        fontWeight: 'bold', 
+        textAlign: 'center' 
+      },
+  cell: { 
+    flex: 1, textAlign: 'center' },
+  row: { 
+    flexDirection: 'row',
+     alignItems: 'center',
+     justifyContent: 'space-evenly',
+      paddingVertical: 8 
+    },
+
 });

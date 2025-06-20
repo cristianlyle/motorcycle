@@ -1,26 +1,45 @@
-import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useFavorites } from '../FavoritesContext';
+import ModalDescription from '../ModalDescription';
+
+
+
+
 
 export default function FavoritesScreen() {
   const { favorites } = useFavorites();
 
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedBike, setSelectedBike] = useState<{
+      id: string;
+      name: string;
+      price: number;
+      image: string;
+      description?: string;
+    } | null>(null);
+
   return (
+    <>
     <View style={styles.container}>
       <Text style={styles.title}>Favorites</Text>
     
       {favorites.length === 0 ? (
         <Text style={styles.empty}>No favorites yet!</Text>
       ) : (
-
-          
-        <ScrollView>            <View style={styles.rowContainer}>
+        <ScrollView>            
+          <View style={styles.rowContainer}>
 
           {favorites.map((bike) => (
             <View key={bike.id} style={styles.card}>
+              <TouchableOpacity
+                              onPress={() => {
+                                setSelectedBike(bike);
+                                setModalVisible(true);
+                              }}
+                            >
               <Image source={{ uri: bike.image }} style={styles.image} />
-              <Text style={styles.name}>{bike.name}</Text>
-              <Text style={styles.price}>₱{bike.price.toLocaleString()}</Text>
+              <Text style={styles.name}>{bike.name}</Text></TouchableOpacity>
                </View>
             
           ))}
@@ -28,10 +47,14 @@ export default function FavoritesScreen() {
 
         </ScrollView>
                    
-
       )}
       
     </View>
+     <ModalDescription
+  visible={modalVisible}
+  bike={selectedBike}
+  onClose={() => setModalVisible(false)}
+/> </>
   );
 }
 
@@ -57,10 +80,11 @@ const styles = StyleSheet.create({
     marginBottom: 15, 
     padding: 15, 
     borderRadius: 10, 
-    backgroundColor: '#f5f5f5' },
+   },
 image: { 
-    width: 100, 
-    height: 100, 
+    width: 130, 
+    height: 130, 
+    justifyContent:'center',
     borderRadius: 5, 
     marginRight: 10 
 },  

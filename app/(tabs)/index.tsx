@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { useCart } from '../CartContext';
 import { useFavorites } from '../FavoritesContext';
-
+import ModalDescription from '../ModalDescription';
 
 
 const PlaceholderImage = require("../../assets/images/motobike.png");
@@ -12,19 +12,65 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const { toggleFavorite, isFavorited } = useFavorites();
 
-  
-   const { cart, total, addToCart } = useCart();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedBike, setSelectedBike] = useState<{
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    description?: string;
+  } | null>(null);
+
+   const { addToCart } = useCart();
 
   const motorcycles = [
-    { id: '1', name: 'Yamaha Mio Sporty', price: 65000,image: 'https://imgcdn.zigwheels.ph/medium/gallery/exterior/86/1857/yamaha-mio-sporty-91022.jpg' },
-    { id: '2', name: 'Honda Click 125i', price: 78000, image: 'https://i.pinimg.com/736x/2f/03/4f/2f034f2f60bd3bec80ed724ec4ca72e2.jpg' },
-    { id: '3', name: 'Kawasaki Barako II', price: 88000,  image: 'https://imgcdn.zigwheels.ph/large/gallery/exterior/74/979/kawasaki-barako-ii-slant-front-view-full-image-791676.jpg' },
-    { id: '4', name: 'Honda SP 125', price: 83000, image: 'https://imgd.aeplcdn.com/1280x720/n/cw/ec/43482/sp-125-right-front-three-quarter.jpeg' },
-    { id: '5', name: 'Kawasaki  Ninja 125', price: 84000, image: 'https://imgcdn.stablediffusionweb.com/2024/11/11/f02840b5-80e0-4488-ad6e-957876cd6f5a.jpg' },
-    { id: '6', name: 'Suzuki GSX-S1000', price: 85000, image: 'https://imgcdn.zigwheels.ph/large/gallery/exterior/83/1787/suzuki-gsx-s1000-abs-slant-rear-view-full-image-244110.jpg' },
-    { id: '7', name: 'Honda ADV 160', price: 81000, image: 'https://imgcdn.oto.com/medium/gallery/exterior/73/2617/honda-adv-160-slant-rear-view-full-image-283713.jpg' },
-    { id: '8', name: 'Suzuki Gixxer SF 155', price: 86000, image: 'https://visor.ph/wp-content/uploads/2024/10/Gixxer-5.jpg' },
-
+    { id: '1', 
+      name: 'Yamaha Mio Sporty', 
+      price: 65000, 
+      image: 'https://imgcdn.zigwheels.ph/medium/gallery/exterior/86/1857/yamaha-mio-sporty-91022.jpg', 
+      description: 'A lightweight, stylish scooter perfect for city rides.' },
+    
+    { id: '2', 
+      name: 'Honda Click 125i', 
+      price: 78000, 
+      image: 'https://i.pinimg.com/736x/2f/03/4f/2f034f2f60bd3bec80ed724ec4ca72e2.jpg', 
+      description: 'A fuel-efficient scooter with modern features.' },
+    
+    { id: '3', 
+      name: 'Kawasaki Barako II', 
+      price: 88000, 
+      image: 'https://imgcdn.zigwheels.ph/large/gallery/exterior/74/979/kawasaki-barako-ii-slant-front-view-full-image-791676.jpg', 
+      description: 'A powerful workhorse designed for heavy-duty use.' },
+    
+    { id: '4', 
+      name: 'Honda SP 125', 
+      price: 83000, 
+      image: 'https://imgd.aeplcdn.com/1280x720/n/cw/ec/43482/sp-125-right-front-three-quarter.jpeg',
+      description: 'A sporty commuter with advanced technology.' },
+    
+    { id: '5', 
+      name: 'Kawasaki  Ninja 125', 
+      price: 84000, 
+      image: 'https://imgcdn.stablediffusionweb.com/2024/11/11/f02840b5-80e0-4488-ad6e-957876cd6f5a.jpg', 
+      description: 'A stylish entry-level sport bike.' },
+    
+    { id: '6', 
+      name: 'Suzuki GSX-S1000', 
+      price: 85000, 
+      image: 'https://imgcdn.zigwheels.ph/large/gallery/exterior/83/1787/suzuki-gsx-s1000-abs-slant-rear-view-full-image-244110.jpg', 
+      description: 'A high-performance naked bike for thrill seekers.' },
+    
+    { id: '7', 
+      name: 'Honda ADV 160', 
+      price: 81000, 
+      image: 'https://imgcdn.oto.com/medium/gallery/exterior/73/2617/honda-adv-160-slant-rear-view-full-image-283713.jpg', 
+      description: 'An adventure scooter built for urban and rough roads.' },
+    
+    { id: '8', 
+      name: 'Suzuki Gixxer SF 155', 
+      price: 86000, 
+      image: 'https://visor.ph/wp-content/uploads/2024/10/Gixxer-5.jpg', 
+      description: 'A sporty and efficient street bike.' },
   ];
 
  const scheme = useColorScheme(); 
@@ -39,10 +85,7 @@ export default function App() {
   return (
     <>
         <View style={[styles.container, themeStyles.background]}>
-   <TouchableOpacity style={styles.darkModeButton} onPress={() => setDarkMode((d) => !d)}>
-        <Text style={themeStyles.text}>{darkMode ? '☀️' : '🌙'}</Text>
-      </TouchableOpacity>
-      
+  
     <Text style={[styles.title, themeStyles.text]}>🏍️ ThrottleUp </Text>
       
     <View style={styles.container1}>
@@ -59,14 +102,20 @@ export default function App() {
     <Text style = {[styles.text,themeStyles.text]}>Recommended Motorcycle</Text>
 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
   {motorcycles.map((bike) => (
-    
     <View key={bike.id} style={styles.card}>
+       <TouchableOpacity
+                onPress={() => {
+                  setSelectedBike(bike);
+                  setModalVisible(true);
+                }}
+              >
       <Image source={{ uri: bike.image }} style={styles.image} />
-      <Text style={styles.name}>{bike.name}</Text>
+     
+      <Text style={styles.name}>{bike.name}</Text></TouchableOpacity>
       <Text style={styles.price}>Price: ₱{bike.price.toLocaleString()}</Text>
      <View style={styles.actionContainer}> 
       <TouchableOpacity style={styles.button} onPress={() => addToCart(bike)}>
-  <Ionicons name="cart-outline" size={24} color="red" />     
+  <Ionicons name="cart-outline" size={24} color="white" />     
   </TouchableOpacity>
       <View style={styles.actionContainer}>
   <TouchableOpacity onPress={() => toggleFavorite(bike)}>
@@ -85,6 +134,11 @@ export default function App() {
   ))}
 </ScrollView>
     </View>
+    <ModalDescription
+  visible={modalVisible}
+  bike={selectedBike}
+  onClose={() => setModalVisible(false)}
+/>
     </>
   );
 }
@@ -94,6 +148,44 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#EAE4D5', // Light background for contrast
+  },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
+  modalContent: {
+    width: 300,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalImage: {
+    width: 200,
+    height: 120,
+    borderRadius: 8,
+    marginBottom: 15,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalDescription: {
+    fontSize: 16,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  closeButton: {
+    backgroundColor: '#2c2c2c',
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+    borderRadius: 8,
   },
   darkModeButton: {
     alignSelf: 'flex-end',
@@ -111,7 +203,7 @@ const styles = StyleSheet.create({
   },
   
   darkBackground: {
-    backgroundColor: '#121212',
+    backgroundColor: '#31363F',
   },
   lightBackground: {
     backgroundColor: '#FFFFFF',
@@ -127,6 +219,7 @@ const styles = StyleSheet.create({
     color: "#2c2c2c", 
     fontWeight: 'bold', 
     marginBottom: '3%' , 
+    marginTop: '3%'
   },
   quote:{
  fontSize: 16,
