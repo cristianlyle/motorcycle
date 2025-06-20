@@ -16,11 +16,13 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false, 
-        tabBarActiveTintColor: "red", // Active tab color
+        tabBarActiveTintColor: "gray", // Active tab color
         tabBarInactiveTintColor: "gray", // Inactive tab color
+        
         tabBarStyle: {
           borderTopWidth: 1,
-          borderTopColor: "gray", // Tab bar border
+          borderTopColor: "gray", 
+         paddingBottom: 10,
         },
       }}
     >
@@ -34,22 +36,10 @@ export default function TabsLayout() {
               size={24}
               color={color}
             />
-          ),
+          ),  
         }}
       />
-      <Tabs.Screen
-        name="about"
-        options={{
-          title: "About",
-          tabBarIcon: ({ focused, color }) => (
-            <Ionicons
-              name={focused ? "bicycle" : "bicycle-outline"} // Motorcycle-related icon
-              size={24}
-              color={color}
-            />
-          ),
-        }}
-      />
+      
       <Tabs.Screen
    
         name="favorites"
@@ -78,6 +68,19 @@ export default function TabsLayout() {
           ),
         }}
         />
+        <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons
+              name={focused ? "settings" : "settings-outline"} // Motorcycle-related icon
+              size={24}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
       </CartProvider>
     </FavoritesProvider>

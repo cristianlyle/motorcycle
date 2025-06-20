@@ -1,4 +1,4 @@
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { useCart } from '../CartContext';
@@ -66,8 +66,8 @@ export default function App() {
       <Text style={styles.price}>Price: ₱{bike.price.toLocaleString()}</Text>
      <View style={styles.actionContainer}> 
       <TouchableOpacity style={styles.button} onPress={() => addToCart(bike)}>
-        <Text style={styles.buttonText}>Add to cart</Text>
-      </TouchableOpacity>
+  <Ionicons name="cart-outline" size={24} color="red" />     
+  </TouchableOpacity>
       <View style={styles.actionContainer}>
   <TouchableOpacity onPress={() => toggleFavorite(bike)}>
     <FontAwesome
@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
 
   },
   button: {
-    backgroundColor: 'red', // Red button for action
     padding: 3,
     borderRadius: 5,
     alignItems: 'center',

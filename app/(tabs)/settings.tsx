@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
 
-export default function About() {
+export default function Setting() {
   return (
     <View
       style={styles.container}
@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgb(33, 52, 72)",
+    backgroundColor: "white",
   },
   text: {
     fontSize: 17,
-    color: "white",
+    color: "black",
   },
 });

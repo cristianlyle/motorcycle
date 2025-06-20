@@ -1,6 +1,5 @@
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFavorites } from '../FavoritesContext';
 
 export default function FavoritesScreen() {
@@ -15,17 +14,18 @@ export default function FavoritesScreen() {
       ) : (
 
           
-        <ScrollView>
+        <ScrollView>            <View style={styles.rowContainer}>
+
           {favorites.map((bike) => (
-            <SafeAreaView style={styles.rowContainer}>
             <View key={bike.id} style={styles.card}>
               <Image source={{ uri: bike.image }} style={styles.image} />
               <Text style={styles.name}>{bike.name}</Text>
               <Text style={styles.price}>₱{bike.price.toLocaleString()}</Text>
                </View>
-            </SafeAreaView>
             
           ))}
+                         </View>
+
         </ScrollView>
                    
 
@@ -38,11 +38,19 @@ export default function FavoritesScreen() {
 const styles = StyleSheet.create({
   container: { 
     flex: 1,
-     padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
-  empty: { color: 'gray', textAlign: 'center' },
+     padding: 20,
+     backgroundColor: '#fff' },
+  title: { 
+    fontSize: 24, 
+    fontWeight: 'bold', 
+    marginBottom: 20, 
+    textAlign: 'center'
+   },
+  empty: { 
+    color: 'gray', 
+    textAlign: 'center'
+    },
   card: { 
-    flex: 1,
     maxWidth: '40%',
     alignItems: 'center',
     textAlign: 'center',
@@ -63,13 +71,10 @@ name: {
     fontSize: 14, 
     color: 'gray' 
   },
-
     rowContainer:{
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'row',
-
-
+   flexDirection: "row",
+   flexWrap:"wrap",
+   justifyContent: 'space-evenly',
 
     },
     
