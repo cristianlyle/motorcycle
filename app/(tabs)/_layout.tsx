@@ -3,6 +3,7 @@ import { Tabs } from "expo-router";
 
 import { LogBox } from "react-native";
 import { CartProvider } from "../CartContext";
+import { DarkModeProvider } from "../DarkModeContext";
 
 import { FavoritesProvider } from '../FavoritesContext';
 LogBox.ignoreAllLogs(true); 
@@ -10,7 +11,8 @@ LogBox.ignoreAllLogs(true);
 
 export default function TabsLayout() {
   return (
-    
+               <DarkModeProvider>
+
     <FavoritesProvider>
     <CartProvider>
     <Tabs
@@ -81,8 +83,10 @@ export default function TabsLayout() {
           ),
         }}
       />
-    </Tabs>
+    </Tabs>     
       </CartProvider>
     </FavoritesProvider>
+       </DarkModeProvider>
+
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { DarkModeProvider, useDarkMode } from "../DarkModeContext";
 import { useFavorites } from '../FavoritesContext';
 import ModalDescription from '../ModalDescription';
 
@@ -9,6 +10,8 @@ import ModalDescription from '../ModalDescription';
 
 export default function FavoritesScreen() {
   const { favorites } = useFavorites();
+    const { darkMode, setDarkMode } = useDarkMode();
+
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedBike, setSelectedBike] = useState<{
@@ -21,8 +24,10 @@ export default function FavoritesScreen() {
 
   return (
     <>
-    <View style={styles.container}>
-      <Text style={styles.title}>Favorites</Text>
+  <DarkModeProvider>
+    <View style={[styles.container,  darkMode && styles.darkBackground]}>
+      
+      <Text style={styles.title}> ♥ Favorites</Text>
     
       {favorites.length === 0 ? (
         <Text style={styles.empty}>No favorites yet!</Text>
@@ -54,7 +59,9 @@ export default function FavoritesScreen() {
   visible={modalVisible}
   bike={selectedBike}
   onClose={() => setModalVisible(false)}
-/> </>
+/> 
+</DarkModeProvider>
+</>
   );
 }
 
@@ -63,12 +70,17 @@ const styles = StyleSheet.create({
     flex: 1,
      padding: 20,
      backgroundColor: '#fff' },
-  title: { 
+
+     darkBackground: {
+  backgroundColor: "dark",
+},  
+title: { 
     fontSize: 24, 
-    fontWeight: 'bold', 
+    marginTop: 35,
+    fontWeight: "bold", 
     marginBottom: 20, 
-    textAlign: 'center'
-   },
+    textAlign: "center" 
+},
   empty: { 
     color: 'gray', 
     textAlign: 'center'

@@ -1,14 +1,24 @@
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { useCart } from '../CartContext';
 import { useFavorites } from '../FavoritesContext';
 import ModalDescription from '../ModalDescription';
 
 
-const PlaceholderImage = require("../../assets/images/motobike.png");
+
+const sliderImages = [
+  require('../../assets/images/motobike1.png'),
+  require('../../assets/images/motorbike2.png'),
+  require('../../assets/images/motorbike3.png'),
+  require('../../assets/images/motorbike4.png'),
+  require('../../assets/images/motorbike6.png'),
+  require('../../assets/images/motorbike7.png'),
+]; 
 
 export default function App() {
+
+  
   const [darkMode, setDarkMode] = useState(false);
   const { toggleFavorite, isFavorited } = useFavorites();
 
@@ -21,6 +31,31 @@ export default function App() {
     description?: string;
   } | null>(null);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Fade out
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start(() => {
+        // Change image
+        setCurrentIndex((prev) => (prev + 1) % sliderImages.length);
+        // Fade in
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [fadeAnim]);
+  
    const { addToCart } = useCart();
 
   const motorcycles = [
@@ -92,12 +127,14 @@ export default function App() {
          <View style={styles.containerQuote}>
            <Text style={[styles.quote, themeStyles.text]}>Your next ride starts
              here — built for the wild, shipped to your garage.</Text>
-    </View> 
-    <View style={styles.motobikeImage}>
-      <Image source={PlaceholderImage}  />
-    </View>
-
-    </View>
+     </View>
+          <View style={styles.motobikeImage}>
+            <Animated.Image
+              source={sliderImages[currentIndex]}
+              style={[styles.imageSlider, { opacity: fadeAnim }]}
+            />
+          </View>
+        </View>
 
     <Text style = {[styles.text,themeStyles.text]}>Recommended Motorcycle</Text>
 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -147,8 +184,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#EAE4D5', // Light background for contrast
   },
+imageSlider: {
+  width: 120,
+  height: 120,
+  borderRadius: 8,
+ resizeMode: 'stretch'
+
+},
 
   modalOverlay: {
     flex: 1,
@@ -219,7 +262,7 @@ const styles = StyleSheet.create({
     color: "#2c2c2c", 
     fontWeight: 'bold', 
     marginBottom: '3%' , 
-    marginTop: '3%'
+    marginTop: '3%' 
   },
   quote:{
  fontSize: 16,
@@ -235,7 +278,6 @@ const styles = StyleSheet.create({
   motobikeImage: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '40%',
   },
   card: {
     marginRight: 15, 
