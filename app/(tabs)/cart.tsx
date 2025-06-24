@@ -32,7 +32,7 @@ export default function CartScreen() {
     <>
     <View style={styles.container}>
 
-      <Text style={styles.title}>🛒 Shopping Cart</Text>
+      <Text style={styles.title}> Rented Motor</Text>
         <View style={styles.headerRow}>
       <Text style={styles.headerCell}>Image</Text>
       <Text style={styles.headerCell}>Name</Text>

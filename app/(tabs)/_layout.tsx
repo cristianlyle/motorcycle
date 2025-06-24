@@ -1,17 +1,23 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
+import React from "react";
 import { LogBox } from "react-native";
 import { CartProvider } from "../CartContext";
 import { DarkModeProvider } from "../DarkModeContext";
+import { RentedProvider } from '../RentedContext';
 
 import { FavoritesProvider } from '../FavoritesContext';
 LogBox.ignoreAllLogs(true); 
 
 
+
 export default function TabsLayout() {
+    
+
   return (
                <DarkModeProvider>
+<RentedProvider>
 
     <FavoritesProvider>
     <CartProvider>
@@ -63,7 +69,7 @@ export default function TabsLayout() {
           title: "",
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
-              name={focused ? "cart" : "cart-outline"} 
+              name={focused ? "cart" : "key-outline"} 
               size={24}
               color={color}
             />
@@ -86,6 +92,7 @@ export default function TabsLayout() {
     </Tabs>     
       </CartProvider>
     </FavoritesProvider>
+    </RentedProvider>
        </DarkModeProvider>
 
   );
