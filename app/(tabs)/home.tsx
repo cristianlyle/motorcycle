@@ -152,7 +152,7 @@ const { rentedItems, setRentedItems } = useRented();
           </View>
         </View>
 
-    <Text style = {[styles.text,themeStyles.text]}>Recommended Motorcycle</Text>
+    <Text style = {[styles.text,themeStyles.text]}>Recommended Motorbikes</Text>
 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
   {motorcycles.map((bike) => (
     <View key={bike.id} style={styles.card}>
@@ -191,8 +191,43 @@ const { rentedItems, setRentedItems } = useRented();
       </View>
 
     </View>
+    
   ))}
 </ScrollView>
+ <Text style = {[styles.text,themeStyles.text]}>Popular Motorbikes</Text>
+<ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+  {motorcycles.map((bike) => (
+    <View key={bike.id} style={styles.card}>
+      <TouchableOpacity
+  onPress={() => {
+    setSelectedBike(bike);
+    setModalVisible(true);
+  }}
+>
+  <Image source={{ uri: bike.image }} style={styles.image} />
+  <Text style={styles.name}>{bike.name}</Text>
+</TouchableOpacity>
+<Text style={styles.price}>Price: ${bike.price.toLocaleString()}</Text>
+<View style={styles.actionContainer}>
+  <TouchableOpacity
+    style={styles.button}
+    onPress={() => {
+      setRentingBike(bike);
+      setRentModalVisible(true);
+    }}
+  >
+    <Text style={styles.rent}>Rent</Text>
+  </TouchableOpacity>
+      <View style={styles.actionContainer}>
+  
+</View>
+      </View>
+
+    </View>
+    
+  ))}
+</ScrollView>
+
     </View>
 <ModalDescription
   visible={modalVisible}
@@ -324,7 +359,7 @@ fontWeight:'bold'
   card: {
     marginRight: 15, 
     width: 150,  
-    height: 225,   
+    height: 220,   
     padding: 15,
     borderRadius: 10,
     backgroundColor: '#2c2c2c',
@@ -397,6 +432,6 @@ fontWeight:'bold'
   text: {
     color: 'black', 
     fontSize: 18,
-    marginBottom: 10,
+    marginBottom: 0,
   },
 });

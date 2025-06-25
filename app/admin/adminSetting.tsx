@@ -1,8 +1,9 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { router } from "expo-router";
 import React, { useState } from "react";
-import { Image, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type RootStackParamList = {
   favorites: undefined;
@@ -45,17 +46,15 @@ export default function Setting() {
         <Ionicons name="cart-outline" size={24} color="#2980b9" style={styles.icon} />
         <Text style={[styles.buttonText, darkMode && styles.darkText]}>Add to Cart</Text>
       </TouchableOpacity>
-
-      <View style={styles.switchRow}>
-        <Ionicons name="moon" size={22} color={darkMode ? "#f1c40f" : "#888"} />
-        <Text style={[styles.switchLabel, darkMode && styles.darkText]}>Dark Mode</Text>
-        <Switch
-          value={darkMode}
-          onValueChange={setDarkMode}
-          thumbColor={darkMode ? "#f1c40f" : "#ccc"}
-          trackColor={{ false: "#ccc", true: "#555" }}
-        />
-      </View>
+<TouchableOpacity
+  style={[styles.button, { backgroundColor: "#e74c3c", justifyContent: "center" }]}
+  onPress={() => {
+      router.replace("/"); 
+  }}
+>
+  <Ionicons name="log-out-outline" size={24} color="#fff" style={styles.icon} />
+  <Text style={[styles.buttonText, { color: "#fff" }]}>Log Out</Text>
+</TouchableOpacity>
     </View>
   );
 }

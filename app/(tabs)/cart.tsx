@@ -19,17 +19,18 @@ export default function CartScreen() {
 {rentedItems.length === 0 ? (
   <Text style={styles.empty}>No rentals yet.</Text>
 ) : (
+     
   <ScrollView>
     {rentedItems.map((item, idx) => (
-      <View key={idx} style={styles.itemRow}>
-        <TouchableOpacity
+       <TouchableOpacity
          onPress={() => {
   setSelectedRenter(item);
   setInfoModalVisible(true);
 }}
         >
+      <View key={idx} style={styles.itemRow}>
+    
           <Image source={{ uri: item.bike.image }} style={styles.image} />
-        </TouchableOpacity>
         <Text style={styles.cell}>{item.bike.name}</Text>
         <Text style={styles.cell}>{item.renterInfo.quantity || 1}</Text>
         <Text style={styles.cell}>
@@ -39,8 +40,11 @@ export default function CartScreen() {
             : item.bike.price?.toLocaleString()}
         </Text>
       </View>
+                </TouchableOpacity>
+
     ))}
   </ScrollView>
+
 )}
 
       {/* Modal to show renter info */}
@@ -55,11 +59,11 @@ export default function CartScreen() {
             <Text style={styles.modalTitle}>Renter Information</Text>
          {selectedRenter && (
   <>
-    <Text>First Name: {selectedRenter.renterInfo.firstName}</Text>
-    <Text>Last Name: {selectedRenter.renterInfo.lastName}</Text>
-    <Text>Address: {selectedRenter.renterInfo.address}</Text>
-    <Text>Quantity: {selectedRenter.renterInfo.quantity || 1}</Text>
-    <Text>
+    <Text style= {styles.text}>First Name: {selectedRenter.renterInfo.firstName}</Text>
+    <Text style= {styles.text}>Last Name: {selectedRenter.renterInfo.lastName}</Text>
+    <Text style= {styles.text}>Address: {selectedRenter.renterInfo.address}</Text>
+    <Text style= {styles.text}>Quantity: {selectedRenter.renterInfo.quantity || 1}</Text>
+    <Text style= {styles.text}>
       Total Paid: $
       {selectedRenter.bike.price && selectedRenter.renterInfo.quantity
         ? (Number(selectedRenter.bike.price) * Number(selectedRenter.renterInfo.quantity)).toLocaleString()
@@ -83,6 +87,11 @@ const styles = StyleSheet.create({
     padding: 16, 
     backgroundColor: "#fff" 
   },
+  text:{
+    padding: 5,
+    borderColor:'black'
+
+  },
   title: { 
     fontSize: 22, 
     fontWeight: "bold", 
@@ -97,12 +106,16 @@ const styles = StyleSheet.create({
   headerCell: { 
     flex: 1, 
     fontWeight: "bold", 
-    textAlign: "center" 
+    textAlign: "center" ,
   },
   itemRow: { 
     flexDirection: "row", 
     alignItems: "center",
-    marginBottom: 12 },
+    marginBottom: 12,
+    
+   
+  },
+    
   image: { 
     width: 60, 
     height: 40, 
@@ -111,7 +124,7 @@ const styles = StyleSheet.create({
   },
   cell: { 
     flex: 1, 
-    textAlign: "center" 
+    textAlign: "center" ,
   },
   empty: { 
     textAlign: "center", 
@@ -129,7 +142,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 20,
-    alignItems: "center",
+   
   },
-  modalTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 12 },
+  modalTitle: { 
+    fontSize: 18, 
+    fontWeight: "bold", 
+    marginBottom: 12, 
+textAlign:'center'
+  },
+    
 });

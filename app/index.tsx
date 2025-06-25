@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+const logo1 = require('../assets/images/logo1.png'); // Adjust the path as needed
 
 export default function LoginScreen() {
   const [username, setUsername] = useState("");
@@ -10,18 +11,29 @@ export default function LoginScreen() {
   const handleLogin = () => {
     // Simple check, replace with real auth if needed
     if (username && password) {
-      router.replace("./home"); 
-    } else if (username == 'Admin'|| 'ADMIN'){
-            router.replace("./cart"); 
-
+    if (username === "admin") {
+      router.replace("./admin");
+    } else {
+      router.replace("./home");
     }
-    else {
-      Alert.alert("Error", "Please enter username and password");
-    }
+  } else {
+    Alert.alert("Error", "Please enter username and password");
+  }
   };
 
   return (
     <View style={styles.container}>
+
+        <View style= {styles.logo}>
+          <View>
+        <Image
+        source={logo1}
+        style = {{width:150,height:150, resizeMode: 'contain',marginRight:15
+}}
+      />
+      </View>
+ 
+      </View>
       <Text style={styles.title}>ThrottleUp Rental Motors</Text>
       <TextInput
         style={styles.input}
@@ -45,8 +57,21 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#fff" },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 32 },
+  container: { 
+    flex: 1, 
+    justifyContent: "center", 
+    alignItems: "center", 
+    backgroundColor: "#fff" 
+  },
+  logo:{
+    flexDirection:'row',
+    marginTop: 35,
+  },
+  title: { 
+    fontSize: 24, 
+    fontWeight: "bold", 
+    marginBottom: 32 
+  },
   input: {
     width: 250,
     borderWidth: 1,
@@ -63,5 +88,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 10,
   },
-  buttonText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
+  buttonText: { 
+    color: "#fff", 
+    fontWeight: "bold", 
+    fontSize: 16 
+  },
 });

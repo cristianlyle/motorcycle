@@ -45,13 +45,28 @@ export default function TabsLayout() {
         }}
       />
       
-        <Tabs.Screen
+      <Tabs.Screen
+   
         name="favorites"
         options={{
           title: "",
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "heart" : "heart-outline"} 
+              size={24}
+              color={color}
+            />
+          ),
+        }}
+        
+        />
+        <Tabs.Screen
+        name="cart"
+        options={{
+          title: "",
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons
+              name={focused ? "key" : "key-outline"} 
               size={24}
               color={color}
             />
@@ -64,7 +79,7 @@ export default function TabsLayout() {
           title: "",
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
-              name={focused ? "settings" : "settings-outline"} // Motorcycle-related icon
+              name={focused ? "settings" : "settings-outline"} 
               size={24}
               color={color}
             />
