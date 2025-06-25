@@ -4,25 +4,26 @@ import { Alert, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } fro
 interface RentModalProps {
   visible: boolean;
   onClose: () => void;
-  onRent: (info: { firstName: string; lastName: string; address: string }) => void;
+  onRent: (info: { firstName: string; lastName: string; address: string; quantity: number }) => void;
   bikeName?: string;
+  price?: number;
 }
-
 const RentModal: React.FC<RentModalProps> = ({ visible, onClose, onRent, bikeName }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
-
+  const [quantity, setQuantity] = useState("");
   const handleRent = () => {
-    if (!firstName || !lastName || !address) {
+    if (!firstName || !lastName || !address || !quantity) {
       Alert.alert("Please fill in all fields");
       return;
     }
-    onRent({ firstName, lastName, address });
-    setFirstName("");
-    setLastName("");
-    setAddress("");
-    onClose();
+  onRent({ firstName, lastName, address, quantity: Number(quantity) });
+  setFirstName("");
+  setLastName("");
+  setAddress("");
+  setQuantity("");
+  onClose();
   };
 
   return (
@@ -53,7 +54,13 @@ const RentModal: React.FC<RentModalProps> = ({ visible, onClose, onRent, bikeNam
             placeholder="Address"
             value={address}
             onChangeText={setAddress}
-          />
+          /> <TextInput
+            style={styles.input}
+            placeholder="Quantity"
+            value={quantity}
+            onChangeText={setQuantity}
+            
+            />
           <TouchableOpacity style={styles.rentButton} onPress={handleRent}>
             <Text style={styles.rentButtonText}>Rent</Text>
           </TouchableOpacity>

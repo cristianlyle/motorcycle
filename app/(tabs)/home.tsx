@@ -4,9 +4,9 @@ import { Animated, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, 
 import { useCart } from '../CartContext';
 import { useFavorites } from '../FavoritesContext';
 import ModalDescription from '../ModalDescription';
-
+import RentModal from '../RentModal';
+import { useRented } from '../RentedContext';
 const logo1 = require('../../assets/images/logo1.png');
-
 
 
 const sliderImages = [
@@ -35,6 +35,10 @@ export default function App() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const fadeAnim = useRef(new Animated.Value(1)).current;
+  
+  const [rentModalVisible, setRentModalVisible] = useState(false);
+const [rentingBike, setRentingBike] = useState<any>(null);
+const { rentedItems, setRentedItems } = useRented();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -152,21 +156,28 @@ export default function App() {
 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
   {motorcycles.map((bike) => (
     <View key={bike.id} style={styles.card}>
-       <TouchableOpacity
-                onPress={() => {
-                  setSelectedBike(bike);
-                  setModalVisible(true);
-                }}
-              >
-      <Image source={{ uri: bike.image }} style={styles.image} />
-     
-      <Text style={styles.name}>{bike.name}</Text></TouchableOpacity>
-      <Text style={styles.price}>Price: ₱{bike.price.toLocaleString()}</Text>
-     <View style={styles.actionContainer}> 
-      <TouchableOpacity style={styles.button} onPress={() => addToCart(bike)}>
-<Text style={styles.rent}>Rent</Text>
+      <TouchableOpacity
+  onPress={() => {
+    setSelectedBike(bike);
+    setModalVisible(true);
+  }}
+>
+  <Image source={{ uri: bike.image }} style={styles.image} />
+  <Text style={styles.name}>{bike.name}</Text>
 </TouchableOpacity>
+<Text style={styles.price}>Price: ${bike.price.toLocaleString()}</Text>
+<View style={styles.actionContainer}>
+  <TouchableOpacity
+    style={styles.button}
+    onPress={() => {
+      setRentingBike(bike);
+      setRentModalVisible(true);
+    }}
+  >
+    <Text style={styles.rent}>Rent</Text>
+  </TouchableOpacity>
       <View style={styles.actionContainer}>
+        
   <TouchableOpacity onPress={() => toggleFavorite(bike)}>
     <FontAwesome
       name="heart"
@@ -183,10 +194,20 @@ export default function App() {
   ))}
 </ScrollView>
     </View>
-    <ModalDescription
+<ModalDescription
   visible={modalVisible}
   bike={selectedBike}
   onClose={() => setModalVisible(false)}
+/>
+<RentModal
+  visible={rentModalVisible}
+  onClose={() => setRentModalVisible(false)}
+  onRent={(info) => {
+    if (rentingBike) {
+      setRentedItems(prev => [...prev, { bike: rentingBike, renterInfo: info }]);
+    }
+  }}
+  bikeName={rentingBike?.name}
 />
     </>
   );

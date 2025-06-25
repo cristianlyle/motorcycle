@@ -32,7 +32,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
           title: "",
           tabBarIcon: ({ focused, color }) => (
@@ -46,12 +46,12 @@ export default function TabsLayout() {
       />
       
         <Tabs.Screen
-        name="favorites"
+        name="cart"
         options={{
           title: "",
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
-              name={focused ? "heart" : "heart-outline"} 
+              name={focused ? "cart" : "key-outline"} 
               size={24}
               color={color}
             />

@@ -27,7 +27,7 @@ export default function FavoritesScreen() {
   <DarkModeProvider>
     <View style={[styles.container,  darkMode && styles.darkBackground]}>
       
-      <Text style={styles.title}> ♥ Favorites</Text>
+      <Text style={styles.title}> Favorites</Text>
     
       {favorites.length === 0 ? (
         <Text style={styles.empty}>No favorites yet!</Text>
