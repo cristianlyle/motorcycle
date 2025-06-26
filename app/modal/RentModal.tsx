@@ -1,29 +1,35 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 interface RentModalProps {
   visible: boolean;
   onClose: () => void;
-  onRent: (info: { firstName: string; lastName: string; address: string; quantity: number }) => void;
+  onRent: (info: { firstName: string; lastName: string; address: string; quantity: number; days: number }) => void;
   bikeName?: string;
   price?: number;
+  navigation?: any;
 }
 const RentModal: React.FC<RentModalProps> = ({ visible, onClose, onRent, bikeName }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [days, setDays] = useState("");
+  const navigation = useNavigation();
   const handleRent = () => {
-    if (!firstName || !lastName || !address || !quantity) {
+    if (!firstName || !lastName || !address || !quantity || !days) {
       Alert.alert("Please fill in all fields");
       return;
     }
-  onRent({ firstName, lastName, address, quantity: Number(quantity) });
-  setFirstName("");
-  setLastName("");
-  setAddress("");
-  setQuantity("");
-  onClose();
+    onRent({ firstName, lastName, address, quantity: Number(quantity), days: Number(days) });
+    setFirstName("");
+    setLastName("");
+    setAddress("");
+    setQuantity("");
+    setDays("");
+    onClose();
+    (navigation as any).navigate("cart");
   };
 
   return (
@@ -59,6 +65,12 @@ const RentModal: React.FC<RentModalProps> = ({ visible, onClose, onRent, bikeNam
             placeholder="Quantity"
             value={quantity}
             onChangeText={setQuantity}
+            
+            /><TextInput
+            style={styles.input}
+            placeholder="Days"
+            value={days}
+            onChangeText={setDays}
             
             />
           <TouchableOpacity style={styles.rentButton} onPress={handleRent}>

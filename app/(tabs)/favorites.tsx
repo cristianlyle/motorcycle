@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { DarkModeProvider, useDarkMode } from "../context/DarkModeContext";
 import { useFavorites } from '../context/FavoritesContext';
 import ModalDescription from '../modal/ModalDescription';
-
-
-
 
 
 export default function FavoritesScreen() {

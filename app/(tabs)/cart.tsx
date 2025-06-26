@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-import { Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRented } from "../context/RentedContext";
+import RenterModal from "../modal/RenterModal";
 
 export default function CartScreen() {
-  const { rentedItems } = useRented();
+  const { rentedItems,setRentedItems } = useRented();
   const [infoModalVisible, setInfoModalVisible] = useState(false);
   const [selectedRenter, setSelectedRenter] = useState<any>(null);
+
+  const handleRetrieve = () => {
+  if (selectedRenter) {
+    setRentedItems(items => items.filter(item => item !== selectedRenter));
+    setInfoModalVisible(false);
+    setSelectedRenter(null);
+  }
+};
 
   return (
     <View style={styles.container}>
@@ -14,6 +23,7 @@ export default function CartScreen() {
   <Text style={styles.headerCell}>Image</Text>
   <Text style={styles.headerCell}>Name</Text>
   <Text style={styles.headerCell}>Qty</Text>
+    <Text style={styles.headerCell}>Days</Text>
   <Text style={styles.headerCell}>Total</Text>
 </View>
 {rentedItems.length === 0 ? (
@@ -21,7 +31,7 @@ export default function CartScreen() {
 ) : (
      
   <ScrollView>
-    {rentedItems.map((item, idx) => (
+    {rentedItems.map((item:any , idx) => (
        <TouchableOpacity
          onPress={() => {
   setSelectedRenter(item);
@@ -33,10 +43,12 @@ export default function CartScreen() {
           <Image source={{ uri: item.bike.image }} style={styles.image} />
         <Text style={styles.cell}>{item.bike.name}</Text>
         <Text style={styles.cell}>{item.renterInfo.quantity || 1}</Text>
+            <Text style={styles.cell}>{item.renterInfo.days || 1}</Text>
+
         <Text style={styles.cell}>
-          ₱
+          $
           {item.bike.price && item.renterInfo.quantity
-            ? (Number(item.bike.price) * Number(item.renterInfo.quantity)).toLocaleString()
+            ? (Number(item.bike.price) * Number(item.renterInfo.quantity)* Number(item.renterInfo.days)).toLocaleString()
             : item.bike.price?.toLocaleString()}
         </Text>
       </View>
@@ -46,37 +58,14 @@ export default function CartScreen() {
   </ScrollView>
 
 )}
+     
+<RenterModal
+  visible={infoModalVisible}
+  renter={selectedRenter}
+  onClose={() => setInfoModalVisible(false)}
+    onRetrieve={handleRetrieve}
 
-      {/* Modal to show renter info */}
-      <Modal
-        visible={infoModalVisible}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setInfoModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Renter Information</Text>
-         {selectedRenter && (
-  <>
-    <Text style= {styles.text}>First Name: {selectedRenter.renterInfo.firstName}</Text>
-    <Text style= {styles.text}>Last Name: {selectedRenter.renterInfo.lastName}</Text>
-    <Text style= {styles.text}>Address: {selectedRenter.renterInfo.address}</Text>
-    <Text style= {styles.text}>Quantity: {selectedRenter.renterInfo.quantity || 1}</Text>
-    <Text style= {styles.text}>
-      Total Paid: $
-      {selectedRenter.bike.price && selectedRenter.renterInfo.quantity
-        ? (Number(selectedRenter.bike.price) * Number(selectedRenter.renterInfo.quantity)).toLocaleString()
-        : selectedRenter.bike.price?.toLocaleString()}
-    </Text>
-  </>
-)}
-            <TouchableOpacity onPress={() => setInfoModalVisible(false)}>
-              <Text style={{ color: 'blue', marginTop: 20 }}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+/>
     </View>
   );
 }

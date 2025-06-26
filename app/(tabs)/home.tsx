@@ -126,7 +126,7 @@ const { rentedItems, setRentedItems } = useRented();
   return (
     <>
         <View style={[styles.container, themeStyles.background]}>
-   
+
                 <View style= {styles.logo}>
           <View>
         <Image
@@ -150,9 +150,10 @@ const { rentedItems, setRentedItems } = useRented();
               style={[styles.imageSlider, { opacity: fadeAnim }]}
             />
           </View>
-        </View>
+        </View>   <ScrollView showsVerticalScrollIndicator={false}>
 
-    <Text style = {[styles.text,themeStyles.text]}>Recommended Motorbikes</Text>
+
+    <Text style = {[styles.text]}>Recommended Motorbikes</Text>
 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
   {motorcycles.map((bike) => (
     <View key={bike.id} style={styles.card}>
@@ -226,6 +227,7 @@ const { rentedItems, setRentedItems } = useRented();
     </View>
     
   ))}
+</ScrollView>
 </ScrollView>
 
     </View>
@@ -359,7 +361,7 @@ fontWeight:'bold'
   card: {
     marginRight: 15, 
     width: 150,  
-    height: 220,   
+    height: 230,   
     padding: 15,
     borderRadius: 10,
     backgroundColor: '#2c2c2c',

@@ -8,7 +8,6 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 type RootStackParamList = {
   favorites: undefined;
   cart: undefined;
-  // add other routes here if needed
 };
 
 export default function Setting() {

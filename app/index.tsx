@@ -13,7 +13,6 @@ export default function LoginScreen() {
   const handleLogin = () => {
     // Simple check, replace with real auth if needed
     if (username && password) {
-     setUser({ name: username, email: username });
     if (username === "admin") {
       router.replace("./admin");
     } else {
@@ -62,13 +61,12 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
-    justifyContent: "center", 
     alignItems: "center", 
     backgroundColor: "#fff" 
   },
   logo:{
-    flexDirection:'row',
-    marginTop: 35,
+    marginTop: '35%',
+
   },
   title: { 
     fontSize: 24, 
