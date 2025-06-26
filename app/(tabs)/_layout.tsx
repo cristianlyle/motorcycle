@@ -3,10 +3,11 @@ import { Tabs } from "expo-router";
 
 import React from "react";
 import { LogBox } from "react-native";
-import { CartProvider } from "../CartContext";
-import { RentedProvider } from '../RentedContext';
+import { CartProvider } from "../context/CartContext";
+import { RentedProvider } from '../context/RentedContext';
+import { UserProvider } from "../context/UserContext"; // adjust path
 
-import { FavoritesProvider } from '../FavoritesContext';
+import { FavoritesProvider } from '../context/FavoritesContext';
 LogBox.ignoreAllLogs(true); 
 
 
@@ -17,6 +18,8 @@ export default function TabsLayout() {
   return (
     <RentedProvider>
           <FavoritesProvider>
+                <UserProvider>
+
     <CartProvider>
     <Tabs
       screenOptions={{
@@ -87,7 +90,8 @@ export default function TabsLayout() {
         }}
       />
     </Tabs>     
-      </CartProvider>
+      </CartProvider>    </UserProvider>
+
     </FavoritesProvider>
     </RentedProvider>
 

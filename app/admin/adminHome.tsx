@@ -1,11 +1,11 @@
 import { FontAwesome } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
+import RentModal from '..//modal/RentModal';
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
 import { useRented } from '../context/RentedContext';
 import ModalDescription from '../modal/ModalDescription';
-import RentModal from '../modal/RentModal';
 const logo1 = require('../../assets/images/logo1.png');
 
 

@@ -1,16 +1,19 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useUser } from "./context/UserContext";
 const logo1 = require('../assets/images/logo1.png'); // Adjust the path as needed
 
 export default function LoginScreen() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const { setUser } = useUser();
 
   const handleLogin = () => {
     // Simple check, replace with real auth if needed
     if (username && password) {
+     setUser({ name: username, email: username });
     if (username === "admin") {
       router.replace("./admin");
     } else {

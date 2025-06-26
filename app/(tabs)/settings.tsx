@@ -24,27 +24,27 @@ export default function Setting() {
   };
 
   return (
-    <View style={[styles.container, darkMode && styles.darkBackground]}>
+    <View style={[styles.container]}>
         
-      <Text style={[styles.title, darkMode && styles.darkText]}>Settings</Text>
+      <Text style={[styles.title]}>Settings</Text>
      <View style={styles.profileContainer}>
         <Image
           source={{ uri: "https://randomuser.me/api/portraits/men/32.jpg" }}
           style={styles.profileImage}
         />
         <View>
-          <Text style={[styles.profileName, darkMode && styles.darkText]}>John Doe</Text>
-          <Text style={[styles.profileEmail, darkMode && styles.darkText]}>john.doe@email.com</Text>
+          <Text style={[styles.profileName]}>John Doe</Text>
+          <Text style={[styles.profileEmail]}>john.doe@email.com</Text>
         </View>
       </View>
-      <TouchableOpacity style={[styles.button, darkMode && styles.darkButton]} onPress={handleFavorites} >
+      <TouchableOpacity style={[styles.button]} onPress={handleFavorites} >
         <FontAwesome name="heart" size={24} color="#e74c3c" style={styles.icon} />
-        <Text style={[styles.buttonText, darkMode && styles.darkText]}>Favorites</Text>
+        <Text style={[styles.buttonText]}>Favorites</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={[styles.button, darkMode && styles.darkButton]} onPress={handleCart}>
+      <TouchableOpacity style={[styles.button]} onPress={handleCart}>
         <Ionicons name="key-outline" size={24} color="#2980b9" style={styles.icon} />
-        <Text style={[styles.buttonText, darkMode && styles.darkText]}>Rented Bikes</Text>
+        <Text style={[styles.buttonText]}>Rented Bikes</Text>
       </TouchableOpacity>
 <TouchableOpacity
   style={[styles.button, { backgroundColor: "#e74c3c", justifyContent: "center" }]}

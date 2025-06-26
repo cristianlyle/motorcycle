@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { DarkModeProvider, useDarkMode } from "../DarkModeContext";
-import { useFavorites } from '../FavoritesContext';
-import ModalDescription from '../ModalDescription';
+import { DarkModeProvider, useDarkMode } from "../context/DarkModeContext";
+import { useFavorites } from '../context/FavoritesContext';
+import ModalDescription from '../modal/ModalDescription';
 
 
 

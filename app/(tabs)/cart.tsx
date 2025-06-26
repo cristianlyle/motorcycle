@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useRented } from "../RentedContext";
+import { useRented } from "../context/RentedContext";
 
 export default function CartScreen() {
   const { rentedItems } = useRented();
