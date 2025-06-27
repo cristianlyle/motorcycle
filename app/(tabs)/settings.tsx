@@ -46,7 +46,7 @@ export default function Setting() {
         <Text style={[styles.buttonText]}>Rented Bikes</Text>
       </TouchableOpacity>
 <TouchableOpacity
-  style={[styles.button, { backgroundColor: "#e74c3c", justifyContent: "center" }]}
+  style={[styles.button, { backgroundColor: "#e74c3c", justifyContent: "center" }]} 
   onPress={() => {
       router.replace("/"); 
   }}

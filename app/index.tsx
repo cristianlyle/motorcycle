@@ -1,48 +1,47 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import API from "./api";
 import { useUser } from "./context/UserContext";
 const logo1 = require('../assets/images/logo1.png'); // Adjust the path as needed
 
 export default function LoginScreen() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
   const { setUser } = useUser();
 
-  const handleLogin = () => {
-    // Simple check, replace with real auth if needed
-    if (username && password) {
-    if (username === "admin") {
-      router.replace("./admin");
-    } else {
-      router.replace("./home");
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter email and password");
+      return;
     }
-  } else {
-    Alert.alert("Error", "Please enter username and password");
-  }
+    try {
+      const res = await API.post("/signin", { email, password });
+      Alert.alert("Success", "Sign in successful!");
+      setUser(res.data.user);
+      router.replace("/home");
+    } catch (err: any) {
+      Alert.alert("Login Failed", err?.response?.data?.message || err.message);
+    }
   };
 
   return (
     <View style={styles.container}>
-
-        <View style= {styles.logo}>
-          <View>
+      <View style={styles.logo}>
         <Image
-        source={logo1}
-        style = {{width:150,height:150, resizeMode: 'contain',marginRight:15
-}}
-      />
-      </View>
- 
+          source={logo1}
+          style={{ width: 150, height: 150, resizeMode: 'contain', marginRight: 15 }}
+        />
       </View>
       <Text style={styles.title}>ThrottleUp Rental Motors</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
         autoCapitalize="none"
+        keyboardType="email-address"
       />
       <TextInput
         style={styles.input}
@@ -54,24 +53,27 @@ export default function LoginScreen() {
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => router.replace("/SignUpScreen")}>
+        <Text style={{ color: '#2980b9', marginTop: 16 }}>Don't have an account? Sign Up</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    alignItems: "center", 
-    backgroundColor: "#fff" 
-  },
-  logo:{
-    marginTop: '35%',
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#fff"
   },
-  title: { 
-    fontSize: 24, 
-    fontWeight: "bold", 
-    marginBottom: 32 
+  logo: {
+    marginTop: '20%',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 32
   },
   input: {
     width: 250,
@@ -89,9 +91,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 10,
   },
-  buttonText: { 
-    color: "#fff", 
-    fontWeight: "bold", 
-    fontSize: 16 
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16
   },
 });

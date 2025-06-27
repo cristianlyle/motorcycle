@@ -1,6 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import API from "../api";
+import { useUser } from "../context/UserContext";
 
 interface RentModalProps {
   visible: boolean;
@@ -10,26 +12,38 @@ interface RentModalProps {
   price?: number;
   navigation?: any;
 }
-const RentModal: React.FC<RentModalProps> = ({ visible, onClose, onRent, bikeName }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [address, setAddress] = useState("");
+const RentModal: React.FC<RentModalProps> = ({ visible, onClose, onRent, bikeName, price }) => {
+  const { user } = useUser(); 
   const [quantity, setQuantity] = useState("");
   const [days, setDays] = useState("");
   const navigation = useNavigation();
-  const handleRent = () => {
-    if (!firstName || !lastName || !address || !quantity || !days) {
+
+  const handleRent = async () => {
+    if (!user?.firstName || !user?.lastName || !user?.address || !quantity || !days) {
       Alert.alert("Please fill in all fields");
       return;
     }
-    onRent({ firstName, lastName, address, quantity: Number(quantity), days: Number(days) });
-    setFirstName("");
-    setLastName("");
-    setAddress("");
-    setQuantity("");
-    setDays("");
-    onClose();
-    (navigation as any).navigate("cart");
+    try {
+      await API.post("/rented", {
+        motorcycleName: bikeName,
+        price: Number(price),
+        quantity: Number(quantity),
+        days: Number(days),
+        total: Number(price) * Number(quantity) * Number(days),
+        renterInfo: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          address: user.address,
+        },
+      });
+      Alert.alert("Success", "Motorcycle rented successfully!");
+      setQuantity("");
+      setDays("");
+      onClose();
+      (navigation as any).navigate("cart");
+    } catch (err: any) {
+      Alert.alert("Error", err?.response?.data?.message || err.message);
+    }
   };
 
   return (
@@ -46,33 +60,33 @@ const RentModal: React.FC<RentModalProps> = ({ visible, onClose, onRent, bikeNam
           <TextInput
             style={styles.input}
             placeholder="First Name"
-            value={firstName}
-            onChangeText={setFirstName}
+            value={user?.firstName || ""}
+            editable={false}
           />
           <TextInput
             style={styles.input}
             placeholder="Last Name"
-            value={lastName}
-            onChangeText={setLastName}
+            value={user?.lastName || ""}
+            editable={false}
           />
           <TextInput
             style={styles.input}
             placeholder="Address"
-            value={address}
-            onChangeText={setAddress}
-          /> <TextInput
+            value={user?.address || ""}
+            editable={false}
+          />
+          <TextInput
             style={styles.input}
             placeholder="Quantity"
             value={quantity}
             onChangeText={setQuantity}
-            
-            /><TextInput
+          />
+          <TextInput
             style={styles.input}
             placeholder="Days"
             value={days}
             onChangeText={setDays}
-            
-            />
+          />
           <TouchableOpacity style={styles.rentButton} onPress={handleRent}>
             <Text style={styles.rentButtonText}>Rent</Text>
           </TouchableOpacity>
