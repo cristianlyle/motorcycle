@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
 
   logo:{
     flexDirection:'row',
-    marginTop: 35,
+
   },
 imageSlider: {
   width: 120,

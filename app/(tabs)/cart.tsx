@@ -31,28 +31,28 @@ export default function CartScreen() {
 ) : (
      
   <ScrollView>
-    {rentedItems.map((item:any , idx) => (
-       <TouchableOpacity
-         onPress={() => {
-  setSelectedRenter(item);
-  setInfoModalVisible(true);
-}}
+  {rentedItems.map((item: any, idx) => (
+  <TouchableOpacity
+    key={item.bike?.id ? item.bike.id + '-' + idx : idx}
+    onPress={() => {
+      setSelectedRenter(item);
+      setInfoModalVisible(true);
+    }}
         >
-      <View key={idx} style={styles.itemRow}>
+    <View style={styles.itemRow}>
     
           <Image source={{ uri: item.bike.image }} style={styles.image} />
         <Text style={styles.cell}>{item.bike.name}</Text>
         <Text style={styles.cell}>{item.renterInfo.quantity || 1}</Text>
             <Text style={styles.cell}>{item.renterInfo.days || 1}</Text>
 
-        <Text style={styles.cell}>
-          $
-          {item.bike.price && item.renterInfo.quantity
-            ? (Number(item.bike.price) * Number(item.renterInfo.quantity)* Number(item.renterInfo.days)).toLocaleString()
-            : item.bike.price?.toLocaleString()}
-        </Text>
+       <Text style={styles.cell}>
+  {`$${item.bike.price && item.renterInfo.quantity
+    ? (Number(item.bike.price) * Number(item.renterInfo.quantity) * Number(item.renterInfo.days)).toLocaleString()
+    : item.bike.price?.toLocaleString()}`}
+</Text>
       </View>
-                </TouchableOpacity>
+            </TouchableOpacity>
 
     ))}
   </ScrollView>
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     fontSize: 22, 
     fontWeight: "bold", 
     marginBottom: 16,
-    marginTop:35,
     textAlign: 'center' 
   },
   headerRow: { 

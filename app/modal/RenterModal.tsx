@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface RenterModalProps {
   visible: boolean;
@@ -26,19 +26,18 @@ const RenterModal: React.FC<RenterModalProps> = ({ visible, renter, onClose,onRe
             <Text style={styles.text}>Quantity: {renter.renterInfo.quantity || 1}</Text>
             <Text style={styles.text}>Day of Rent: {renter.renterInfo.days || 1}</Text>
             <Text style={styles.text}>
-              Total Paid: $
-              {renter.bike.price && renter.renterInfo.quantity
-                ? (
-                    Number(renter.bike.price) *
-                    Number(renter.renterInfo.quantity) *
-                    Number(renter.renterInfo.days)
-                  ).toLocaleString()
-                : renter.bike.price?.toLocaleString()}
-            </Text>
+  {`Total Paid: $${renter.bike.price && renter.renterInfo.quantity
+    ? (
+        Number(renter.bike.price) *
+        Number(renter.renterInfo.quantity) *
+        Number(renter.renterInfo.days)
+      ).toLocaleString()
+    : renter.bike.price?.toLocaleString()}`}
+</Text>
           </>
         )}
         <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
-          <TouchableOpacity onPress={onClose} style={{ backgroundColor: 'gray',padding:10,borderRadius:10}}>
+          <TouchableOpacity onPress={onClose} style={{ backgroundColor: '#2c2c2c',padding:10,borderRadius:10}}>
             <Text style={{ color: "white", textAlign: "center" }}>Close</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onRetrieve} style={{backgroundColor: 'red',padding:10 ,borderRadius:10 }}>

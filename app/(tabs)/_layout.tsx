@@ -5,7 +5,7 @@ import React from "react";
 import { LogBox } from "react-native";
 import { CartProvider } from "../context/CartContext";
 import { RentedProvider } from '../context/RentedContext';
-import { UserProvider } from "../context/UserContext"; // adjust path
+import { UserProvider } from "../context/UserContext";
 
 import { FavoritesProvider } from '../context/FavoritesContext';
 LogBox.ignoreAllLogs(true); 
@@ -16,6 +16,7 @@ export default function TabsLayout() {
     
 
   return (
+    
     <RentedProvider>
           <FavoritesProvider>
                 <UserProvider>
@@ -30,7 +31,6 @@ export default function TabsLayout() {
         tabBarStyle: {
           borderTopWidth: 1,
           borderTopColor: "gray", 
-         paddingBottom: 10,
         },
       }}
     >

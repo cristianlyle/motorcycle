@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import API from "./api";
 import { useUser } from "./context/UserContext";
 const logo1 = require('../assets/images/logo1.png'); // Adjust the path as needed
@@ -27,6 +27,11 @@ export default function LoginScreen() {
   };
 
   return (
+     <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView showsVerticalScrollIndicator={false}>
     <View style={styles.container}>
       <View style={styles.logo}>
         <Image
@@ -57,6 +62,8 @@ export default function LoginScreen() {
         <Text style={{ color: '#2980b9', marginTop: 16 }}>Don't have an account? Sign Up</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

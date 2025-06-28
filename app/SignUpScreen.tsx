@@ -1,8 +1,9 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import API from "./api";
 const logo1 = require('../assets/images/logo1.png');
+
 
 export default function SignUpScreen() {
 const [firstName, setFirstName] = useState("");
@@ -33,6 +34,12 @@ const handleSignUp = async () => {
 
 
   return (
+     <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView showsVerticalScrollIndicator={false}>
+
     <View style={styles.container}>
       <View style={styles.logo}>
         <Image source={logo1} style={{ width: 150, height: 150, resizeMode: 'contain', marginRight: 15 }} />
@@ -86,15 +93,17 @@ const handleSignUp = async () => {
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.replace("/")}> 
         <Text style={{ color: '#2980b9', marginTop: 16 }}>Already have an account? Sign In</Text>
-      </TouchableOpacity>
-    </View>
+      </TouchableOpacity>    </View>
+
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    alignItems:'center',
     backgroundColor: "#fff"
   },
   logo: {
@@ -120,6 +129,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     borderRadius: 8,
     marginTop: 10,
+    alignItems:'center'
   },
   buttonText: {
     color: "#fff",
